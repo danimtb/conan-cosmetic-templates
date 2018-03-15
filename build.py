@@ -16,6 +16,7 @@ def get_version_from_recipe():
 
 
 if __name__ == "__main__":
+    header_only = False
     name = get_name_from_recipe()
     version = get_version_from_recipe()
     reference = "{0}/{1}".format(name, version)
@@ -31,6 +32,14 @@ if __name__ == "__main__":
         reference=reference,
         upload=upload_remote,
         remotes=upload_remote)
+
+    if header_only:
+        filtered_builds = []
+        for settings, options, env_vars, build_requires, reference in builder.items:
+            if settings["compiler"] == "gcc":
+                filtered_builds.append([settings, options, env_vars, build_requires])
+                break
+        builder.builds = filtered_builds
 
     builder.add_common_builds()
     builder.run()
