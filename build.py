@@ -40,6 +40,6 @@ if __name__ == "__main__":
                 filtered_builds.append([settings, options, env_vars, build_requires])
                 break
         builder.builds = filtered_builds
-
-    builder.add_common_builds()
+    else:
+        builder.add_common_builds()
     builder.run()
